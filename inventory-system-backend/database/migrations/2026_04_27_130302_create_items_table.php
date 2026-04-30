@@ -6,9 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('items', function (Blueprint $table) {
@@ -21,13 +18,15 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->foreignId('place_id')->constrained()->cascadeOnDelete();
             $table->enum('status', ['in_store', 'borrowed', 'damaged', 'missing'])->default('in_store');
+            $table->foreignId('created_by')->constrained('users');
             $table->timestamps();
+            
+            $table->index('code');
+            $table->index('status');
+            $table->index('quantity');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('items');

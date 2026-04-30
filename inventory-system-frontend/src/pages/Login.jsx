@@ -14,6 +14,7 @@ export default function Login() {
       const res = await api.post("/login", {
         email,
         password,
+        role : "admin",
       });
 
       localStorage.setItem("token", res.data.token);

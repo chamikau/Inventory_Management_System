@@ -1,11 +1,13 @@
-import { Navigate } from "react-router-dom";
+// components/ProtectedRoute.jsx
+import { Navigate, Outlet } from "react-router-dom";
+import { useUser } from "../contexts/UserContext";
 
-export default function ProtectedRoute({ children }) {
-  const token = localStorage.getItem("token");
+export default function ProtectedRoute() {
+  const { user, loading } = useUser();
 
-  if (!token) {
-    return <Navigate to="/" />;
+  if (loading) {
+    return <div>Loading...</div>; // Or a spinner
   }
 
-  return children;
+  return user ? <Outlet /> : <Navigate to="/" />;
 }
