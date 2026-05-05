@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('cupboards', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->string('description');
             $table->string('created_by');
             $table->timestamps();

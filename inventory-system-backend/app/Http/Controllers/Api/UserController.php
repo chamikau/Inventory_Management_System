@@ -14,8 +14,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $this->authorize('viewAny', User::class);
-        
+       
         $users = User::with('creator')
             ->latest()
             ->paginate($request->get('per_page', 15));
@@ -28,8 +27,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $this->authorize('create', User::class);
-        
+      
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
@@ -120,6 +118,14 @@ class UserController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => 'You cannot delete your own account'
+            ], 403);
+        }
+        
+        $adminCount = User::where('role', 'admin')->count();
+        if ($user->role === 'admin' && $adminCount <= 1) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Cannot delete the last admin user'
             ], 403);
         }
         

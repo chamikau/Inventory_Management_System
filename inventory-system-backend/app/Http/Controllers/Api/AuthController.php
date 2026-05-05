@@ -18,7 +18,6 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // Attempt login
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'message' => 'Invalid credentials'
@@ -27,10 +26,8 @@ class AuthController extends Controller
 
         $user = Auth::user();
         
-        // Delete existing tokens (optional but recommended)
         $user->tokens()->delete();
         
-        // Create new token
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([

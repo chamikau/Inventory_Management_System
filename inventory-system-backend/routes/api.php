@@ -12,7 +12,11 @@ use Illuminate\Support\Facades\Route;
 Route::post('/login', [AuthController::class, 'login']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::apiResource('users', UserController::class);
+    
+        Route::get('/me', [AuthController::class, 'me']);
+        Route::middleware('role:admin')->group(function () {
+        Route::apiResource('users', UserController::class);
+    });
     Route::apiResource('items', ItemController::class);
     Route::apiResource('cupboards', CupboardController::class);
 });

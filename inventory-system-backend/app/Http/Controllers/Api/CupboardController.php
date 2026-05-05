@@ -17,9 +17,12 @@ class CupboardController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255',
+            'location' => 'nullable|string|max:255',
             'description' => 'nullable|string',
         ]);
 
+        $data['created_by'] = auth()->id();
+        
         $cupboard = Cupboard::create($data);
 
         return response()->json($cupboard, 201);
@@ -36,6 +39,7 @@ class CupboardController extends Controller
 
         $data = $request->validate([
             'name' => 'required|string|max:255',
+            'location' => 'nullable|string|max:255',
             'description' => 'nullable|string',
         ]);
 
