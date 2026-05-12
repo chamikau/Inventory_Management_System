@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Borrowing extends Model
 {
@@ -44,7 +43,7 @@ class Borrowing extends Model
         return $this->belongsTo(User::class, 'returned_by');
     }
 
-    public function isOverdue()
+    public function getIsOverdueAttribute()
     {
         return $this->status === 'borrowed' && 
                $this->expected_return_date < now()->startOfDay();
@@ -52,37 +51,10 @@ class Borrowing extends Model
 
     public function getDaysOverdueAttribute()
     {
-        if (!$this->isOverdue()) {
+        if (!$this->getIsOverdueAttribute()) {
             return 0;
         }
         return now()->diffInDays($this->expected_return_date);
-    }
-
-    public function markAsReturned(User $returner): void
-    {
-        DB::transaction(function () use ($returner) {
-            $oldStatus = $this->status;
-            
-            $this->update([
-                'actual_return_date' => now(),
-                'status' => 'returned',
-                'returned_by' => $returner->id
-            ]);
-            
-            $this->item->incrementQuantity($this->quantity_borrowed, $returner);
-            
-            if ($this->item->status === 'borrowed' && $this->item->quantity > 0) {
-                $this->item->updateStatus('in_store', $returner);
-            }
-            
-            AuditLog::log(
-                $returner,
-                'item.returned',
-                $this,
-                ['status' => $oldStatus],
-                ['status' => 'returned']
-            );
-        });
     }
 
     public function scopeBorrowed($query)

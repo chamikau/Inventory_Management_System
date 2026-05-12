@@ -1,4 +1,3 @@
-// App.js
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { UserProvider, useUser } from "./contexts/UserContext";
 import Layout from "./components/Layout";
@@ -6,11 +5,10 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Users from "./pages/Users";
 import Cupboards from "./pages/Cupboards";
-// import Places from "./pages/Places";
-// import Items from "./pages/Items";
-// import Borrowings from "./pages/Borrowings";
+import Places from "./pages/Places";
+import Items from "./pages/Items";
+import Borrowings from "./pages/Borrowings";
 
-// Protected Route wrapper
 function ProtectedRoute({ children, requiredRole }) {
   const { user, loading } = useUser();
   
@@ -35,14 +33,13 @@ function AppRoutes() {
       } />
       
       <Route path="/users" element={
-        <ProtectedRoute requiredRole="admin">
+        <ProtectedRoute>
           <Layout>
-            <Users />
+            <Users />.
           </Layout>
         </ProtectedRoute>
       } />
       
-      {/* Add other routes similarly */}
       <Route path="/cupboards" element={
         <ProtectedRoute>
           <Layout>
@@ -50,6 +47,31 @@ function AppRoutes() {
           </Layout>
         </ProtectedRoute>
       } />
+      
+      <Route path="/places" element={
+        <ProtectedRoute>
+          <Layout>
+            <Places />
+          </Layout>
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/borrowings" element={
+        <ProtectedRoute>
+          <Layout>
+            <Borrowings />
+          </Layout>
+        </ProtectedRoute>
+      } />
+      
+      <Route path="/items" element={
+        <ProtectedRoute>
+          <Layout>
+            <Items />
+          </Layout>
+        </ProtectedRoute>
+      } />
+      
     </Routes>
   );
 }
