@@ -44,37 +44,18 @@ class AuditLog extends Model
             'action' => $action,
             'entity_type' => $entity ? get_class($entity) : null,
             'entity_id' => $entity ? $entity->id : null,
-            'old_value' => $oldValue ? json_encode($oldValue) : null,
-            'new_value' => $newValue ? json_encode($newValue) : null,
+            'old_value' => $oldValue,
+            'new_value' => $newValue,
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
         ]);
     }
 
-    public function scopeForEntity($query, $entity)
-    {
-        return $query->where('entity_type', get_class($entity))
-                     ->where('entity_id', $entity->id);
-    }
-
-    public function scopeForAction($query, $action)
-    {
-        return $query->where('action', $action);
-    }
-
-    public function scopeForUser($query, $userId)
-    {
-        return $query->where('user_id', $userId);
-    }
-
-    public function scopeRecent($query, $limit = 50)
-    {
-        return $query->latest()->limit($limit);
-    }
-
     public function getReadableActionAttribute()
     {
         $actions = [
+            'user.login' => 'User Login',
+            'user.logout' => 'User Logout',
             'user.created' => 'User Created',
             'user.updated' => 'User Updated',
             'user.deleted' => 'User Deleted',
@@ -92,8 +73,37 @@ class AuditLog extends Model
             'status.changed' => 'Status Changed',
             'item.borrowed' => 'Item Borrowed',
             'item.returned' => 'Item Returned',
+            'borrowing.deleted' => 'Borrowing Record Deleted',
         ];
         
         return $actions[$this->action] ?? ucfirst(str_replace('.', ' ', $this->action));
+    }
+
+    public function getEntityTypeNameAttribute()
+    {
+        $types = [
+            'App\Models\User' => 'User',
+            'App\Models\Cupboard' => 'Cupboard',
+            'App\Models\Place' => 'Place',
+            'App\Models\Item' => 'Item',
+            'App\Models\Borrowing' => 'Borrowing',
+        ];
+        
+        return $types[$this->entity_type] ?? 'Unknown';
+    }
+
+    public function scopeToday($query)
+    {
+        return $query->whereDate('created_at', today());
+    }
+
+    public function scopeThisWeek($query)
+    {
+        return $query->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()]);
+    }
+
+    public function scopeThisMonth($query)
+    {
+        return $query->whereMonth('created_at', now()->month);
     }
 }

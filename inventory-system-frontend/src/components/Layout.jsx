@@ -99,7 +99,6 @@ export default function Layout({ children }) {
         </div>
       </div>
       
-      {/* Main Content */}
       <div style={{
         marginLeft: "250px",
         padding: "20px",

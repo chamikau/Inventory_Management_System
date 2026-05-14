@@ -8,6 +8,7 @@ import Cupboards from "./pages/Cupboards";
 import Places from "./pages/Places";
 import Items from "./pages/Items";
 import Borrowings from "./pages/Borrowings";
+import AuditLogs from "./pages/AuditLogs";
 
 function ProtectedRoute({ children, requiredRole }) {
   const { user, loading } = useUser();
@@ -68,6 +69,13 @@ function AppRoutes() {
         <ProtectedRoute>
           <Layout>
             <Items />
+          </Layout>
+        </ProtectedRoute>
+      } />
+      <Route path="/audit-logs" element={
+        <ProtectedRoute>
+          <Layout>
+            <AuditLogs />
           </Layout>
         </ProtectedRoute>
       } />

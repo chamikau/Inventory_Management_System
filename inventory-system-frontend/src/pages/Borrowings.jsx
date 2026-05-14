@@ -43,7 +43,7 @@ export default function Borrowings() {
             }
             
             const response = await api.get(url);
-            const borrowingsData = response.data.data?.data || response.data.data || [];
+            const borrowingsData = response.data.data.data || response.data.data || [];
             setBorrowings(borrowingsData);
         } catch (error) {
             console.error("Failed to fetch borrowings:", error);
