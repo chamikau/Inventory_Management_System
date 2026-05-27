@@ -6,6 +6,10 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+
+        protected $policies = [
+        User::class => UserPolicy::class,
+    ];
     /**
      * Register any application services.
      */
@@ -19,6 +23,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->registerPolicies();
+
+        Gate::define('access-admin', function (User $user) {
+            return $user->role === 'admin';
+        });
+
+        Gate::define('access-staff', function (User $user) {
+            return $user->role === 'staff';
+        });
     }
 }

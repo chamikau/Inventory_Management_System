@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('audit_logs', function (Blueprint $table) {
+        Schema::create('places', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->foreignId('cupboard_id')->constrained()->cascadeOnDelete();
+            $table->string('shelf_number');
+            $table->string('description');
             $table->timestamps();
         });
     }
@@ -22,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('audit_logs');
+        Schema::dropIfExists('places');
     }
 };
