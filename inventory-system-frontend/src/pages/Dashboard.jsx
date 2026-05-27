@@ -1,4 +1,3 @@
-// pages/Dashboard.jsx
 import { useEffect, useState } from "react";
 import { useUser } from "../contexts/UserContext";
 import api from "../services/api";

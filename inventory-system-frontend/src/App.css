@@ -182,7 +182,6 @@
     border-right-color: var(--border);
   }
 }
-/* Add to App.css */
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
@@ -213,7 +212,6 @@ body {
     background-color: #f5f5f5;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -232,7 +230,6 @@ body {
     background: #555;
 }
 
-/* Table styles */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -253,14 +250,12 @@ tr:hover {
     background-color: #f5f5f5;
 }
 
-/* Button hover effects */
 button:hover {
     opacity: 0.9;
     transform: translateY(-1px);
     transition: all 0.2s;
 }
 
-/* Card hover */
 .card:hover {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     transform: translateY(-2px);

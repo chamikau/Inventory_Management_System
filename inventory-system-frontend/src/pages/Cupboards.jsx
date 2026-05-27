@@ -1,4 +1,3 @@
-// pages/Cupboards.jsx
 import { useEffect, useState } from "react";
 import api from "../services/api";
 
@@ -128,7 +127,6 @@ export default function Cupboards() {
     );
 }
 
-// Modal Component
 function Modal({ children, onClose }) {
     return (
         <div style={modalOverlay} onClick={onClose}>

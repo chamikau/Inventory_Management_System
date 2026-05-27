@@ -201,7 +201,9 @@ export default function AuditLogs() {
                     <div style={topActionsGrid}>
                         {stats.top_actions.map((action, index) => (
                             <div key={index} style={topActionItem}>
-                                <span>{getActionIcon(action.action)} {action.action}</span>
+                                <span>{getActionIcon(action.action)} 
+                                    {action.action.replace(/\./g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
+                                    </span>
                                 <span style={topActionCount}>{action.count}</span>
                             </div>
                         ))}
@@ -253,7 +255,8 @@ export default function AuditLogs() {
                                             alignItems: "center",
                                             gap: "4px"
                                         }}>
-                                            {getActionIcon(log.action)} {log.readable_action || log.action}
+                                            {getActionIcon(log.action.replace(/\./g, ' ').replace(/\b\w/g, l => l.toUpperCase()))} 
+                                            {log.readable_action || log.action.replace(/\./g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                                         </span>
                                     </td>
                                     <td style={tdStyle}>

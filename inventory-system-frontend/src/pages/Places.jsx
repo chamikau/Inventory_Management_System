@@ -184,7 +184,6 @@ export default function Places() {
                 </div>
             )}
 
-            {/* Modal for Create/Edit Place */}
             {showModal && (
                 <Modal onClose={() => {
                     setShowModal(false);
@@ -268,7 +267,6 @@ export default function Places() {
     );
 }
 
-// Styles
 const headerStyle = {
     display: "flex",
     justifyContent: "space-between",

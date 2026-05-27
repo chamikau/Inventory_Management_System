@@ -1,5 +1,4 @@
 <?php
-// app/Providers/AuthServiceProvider.php
 
 namespace App\Providers;
 
